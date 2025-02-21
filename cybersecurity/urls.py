@@ -22,5 +22,6 @@ from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('forum.urls'))
+    path('', include('forum.urls')),
+    path('signup/', include('forum.urls'))
 ]
