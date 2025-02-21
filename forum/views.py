@@ -1,5 +1,6 @@
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+def homePageView(request):
+    return render(request, 'index.html')
