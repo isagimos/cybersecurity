@@ -2,12 +2,21 @@
 <hr>
 
 <form action='adduser/' method="POST">
-    {% csrf_token %}
+   {% csrf_token %}
     Username:
     <input type="text" name="username"/><br/>
     Password:
-    <input type="text" name="password"/><br/>
+    <input type="password" name="password"/><br/>
     Re-enter password:
-    <input type="text" name="password2"/><br/>
+    <input type="password" name="password2"/><br/>
     <input type="submit" value="Send"/>
 </form>
+
+{{ message }}
+
+
+
+
+
+
+<!--Tee csrf_exemptillä tietoturva-aukko-->
