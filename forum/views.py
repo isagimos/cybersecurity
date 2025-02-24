@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import User
+from django.contrib.auth.hashers import make_password
 
 
 def homePageView(request):
@@ -27,7 +28,10 @@ def addUser(request):
         if len(password) <= 8:
             return redirect("/signup")
 
-        User.objects.create(username=username, password=password)
+        # Hash password before adding it to database:
+        hashed_password = make_password(password)
+        
+        User.objects.create(username=username, password=hashed_password)
         return redirect("/")
     
 
