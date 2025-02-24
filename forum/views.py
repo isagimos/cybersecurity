@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import User
-from django.contrib.auth.hashers import make_password
+from .models import User, PersonalNotes
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.decorators import login_required
 
 
 def homePageView(request):
@@ -30,10 +31,49 @@ def addUser(request):
 
         # Hash password before adding it to database:
         hashed_password = make_password(password)
-        
+
         User.objects.create(username=username, password=hashed_password)
         return redirect("/")
     
 
     
     return redirect("/")
+
+def login(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+
+
+    db_password = User.objects.filter(username=username).values()
+
+    db_password = db_password.all()[0]["password"]
+
+    if check_password(password, db_password):
+
+        context = {"username": password}
+
+        request.session["user"] = f"{username}"
+
+        return render(request, "home.html", context)
+
+    return redirect("/")
+
+@login_required
+def notes(request):
+    username = request.session["user"]
+
+    notes = PersonalNotes.objects.filter(username=username)
+
+    context = {"notes": notes}
+
+    return render(request, "notes.html", context)
+
+def addNote(request):
+
+    username = request.session["user"]
+
+    note = request.POST.get("content")
+
+    PersonalNotes.objects.create(username=username, note=note)
+
+    return redirect("/notes")

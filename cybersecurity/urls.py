@@ -23,5 +23,8 @@ from django.views.generic.base import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('forum.urls')),
-    path('signup/', include('forum.urls'))
+    path('signup/', include('forum.urls')),
+    path('login/', include('forum.urls')),
+    path('notes/', include('forum.urls')),
+    path('addnote/', include('forum.urls'))
 ]

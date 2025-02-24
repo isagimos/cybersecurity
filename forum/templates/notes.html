@@ -1,0 +1,16 @@
+My personal notes:
+
+<p>{% for note in notes %}
+
+<li>{{note.note | safe }}
+</li>
+
+{% endfor %}</p>
+
+Write a personal note:
+
+<form action='addnote/' method="POST">
+    {% csrf_token %}
+    <textarea name="content" rows="10"></textarea><br />
+    <input type="submit" value="Send"/>
+</form>

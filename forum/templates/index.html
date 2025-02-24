@@ -1,13 +1,14 @@
-<h1>Welcome</h1>
+<h1>Welcome to the forum</h1>
 <hr>
 
 Log in:
 
 <form action='login/' method="POST">
+    {% csrf_token %}
     Username:
     <input type="text" name="username"/></br>
     Password:
-    <input type="text" name="password"/>
+    <input type="password" name="password"/>
     <input type="submit" value="Send"/>
 </form>
 
