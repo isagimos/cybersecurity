@@ -6,7 +6,12 @@ from django.contrib.auth.decorators import login_required
 
 
 def homePageView(request):
+    try:
+        del request.session["user"]
+    except KeyError:
+        return render(request, 'index.html')
     return render(request, 'index.html')
+    
 
 def signUpView(request):
     return render(request, 'signup.html')
@@ -55,10 +60,15 @@ def login(request):
         request.session["user"] = f"{username}"
 
         return render(request, "home.html", context)
+    
+    else:
+        #luo laskuri, montako kretaa kokeiltu. session[lsekuri]. jos kolmesti,
+        #estä pääsy! tääm on bruteforce hyökkäyksen esto!
+        pass
 
     return redirect("/")
 
-@login_required
+
 def notes(request):
     username = request.session["user"]
 

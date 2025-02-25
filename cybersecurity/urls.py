@@ -26,5 +26,6 @@ urlpatterns = [
     path('signup/', include('forum.urls')),
     path('login/', include('forum.urls')),
     path('notes/', include('forum.urls')),
-    path('addnote/', include('forum.urls'))
+    path('addnote/', include('forum.urls')),
+    path('accounts/', include('forum.urls'))
 ]
