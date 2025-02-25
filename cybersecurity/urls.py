@@ -27,5 +27,6 @@ urlpatterns = [
     path('login/', include('forum.urls')),
     path('notes/', include('forum.urls')),
     path('addnote/', include('forum.urls')),
-    path('accounts/', include('forum.urls'))
+    path('accounts/', include('forum.urls')),
+    path('login/access_denied/', include('forum.urls'))
 ]

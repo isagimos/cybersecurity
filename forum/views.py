@@ -3,16 +3,22 @@ from django.shortcuts import render, redirect
 from .models import User, PersonalNotes
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
+import time
 
 
 def homePageView(request):
-    # The session of the current user is deleted
-    # to fix Broken Access Control:
-    try:
-        del request.session["user"]
-    except KeyError:
+
+    if check(request):
+
+        # The session of the current user is deleted
+        # to fix Broken Access Control:
+        try:
+            del request.session["user"]
+        except KeyError:
+            return render(request, 'index.html')
         return render(request, 'index.html')
-    return render(request, 'index.html')
+    
+    return redirect("login/access_denied/")
 
 def signUpView(request):
     return render(request, 'signup.html')
@@ -46,29 +52,46 @@ def addUser(request):
     return redirect("/")
 
 def login(request):
-    username = request.POST.get("username")
-    password = request.POST.get("password")
 
+    if check(request):
 
-    db_password = User.objects.filter(username=username).values()
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-    db_password = db_password.all()[0]["password"]
+        try:
+            db_password = User.objects.filter(username=username).values()
 
-    if check_password(password, db_password):
+            db_password = db_password.all()[0]["password"]
 
-        context = {"username": password}
+            if check_password(password, db_password):
 
-        request.session["user"] = f"{username}"
+                context = {"username": password}
 
-        return render(request, "home.html", context)
+                request.session["user"] = f"{username}"
+
+                return render(request, "home.html", context)
+        except:
+            pass
+        
+        # Add request.session["tries"] to monitor login attempts.
+        # If somebody gives an incorrect password more than 3 times
+        # the user is redirected to "access_denied/".
+        try:
+            request.session["tries"] += 1
+        except:
+            request.session["tries"] = 1
+        
+        if request.session["tries"] > 3:
+
+            x = time.time()
+
+            request.session["lock"] = x
+
+            return redirect("access_denied/")
+
+        return redirect("/")
     
-    else:
-        #luo laskuri, montako kretaa kokeiltu. session[lsekuri]. jos kolmesti,
-        #estä pääsy! tääm on bruteforce hyökkäyksen esto!
-        pass
-
-    return redirect("/")
-
+    return redirect("login/access_denied/")
 
 def notes(request):
     username = request.session["user"]
@@ -88,3 +111,29 @@ def addNote(request):
     PersonalNotes.objects.create(username=username, note=note)
 
     return redirect("/notes")
+
+def accessDenied(request):
+
+    request.session["tries"] = 0
+
+    x = request.session["lock"]
+
+    y = time.time()
+
+    if y - x < 60:
+        return render(request, "access_denied.html")
+    
+# Check if 60 seconds has passed and the user is allowed
+# to try to log in again:
+def check(request):
+    y = time.time()
+
+    try:
+        x = request.session["lock"]
+    except:
+        return True
+    
+    if y - x < 60:
+        return False
+
+    return True
