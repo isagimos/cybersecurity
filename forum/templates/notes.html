@@ -1,16 +1,21 @@
-My personal notes:
+Messages:
 
 <p>{% for note in notes %}
 
-<li>{{note.note | safe }}
+
+<!--There used to be safe filter after note.note.
+It is now removed to better prevent any XSS attack.-->
+<li>{{ note.username }}: "{{note.note}}"
 </li>
 
 {% endfor %}</p>
 
-Write a personal note:
+Write a message:
 
 <form action='addnote/' method="POST">
     {% csrf_token %}
     <textarea name="content" rows="10"></textarea><br />
     <input type="submit" value="Send"/>
 </form>
+
+<p><a href="/">Log out.</a></p>

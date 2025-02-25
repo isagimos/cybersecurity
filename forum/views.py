@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import User, PersonalNotes
+from .models import User, Notes
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 import time
@@ -65,11 +65,9 @@ def login(request):
 
             if check_password(password, db_password):
 
-                context = {"username": password}
-
                 request.session["user"] = f"{username}"
 
-                return render(request, "home.html", context)
+                return render(request, "home.html")
         except:
             pass
         
@@ -96,11 +94,12 @@ def login(request):
 def notes(request):
     username = request.session["user"]
 
-    notes = PersonalNotes.objects.filter(username=username)
+    notes = Notes.objects.all()
 
     context = {"notes": notes}
 
     return render(request, "notes.html", context)
+
 
 def addNote(request):
 
@@ -108,7 +107,13 @@ def addNote(request):
 
     note = request.POST.get("content")
 
-    PersonalNotes.objects.create(username=username, note=note)
+    # Fixing XSS vulnerability. The <'s and >s are replaced by
+    # HTML character entities &lt; and &gt; (less than and greater than)
+    # before the message is saved to the database. This ensures that possible
+    # HTML code is not rendered when notes.html is rendered to the user.
+    note = note.replace("<", "&lt;").replace(">", "&gt;")
+
+    Notes.objects.create(username=username, note=note)
 
     return redirect("/notes")
 
