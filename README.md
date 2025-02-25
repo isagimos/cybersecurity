@@ -2,8 +2,8 @@
 
 
 ```
-git clone https://github.com/isagimos/helsinki-karttatasot.git
-cd helsinki-karttatasot
+git clone https://github.com/isagimos/cybersecurity.git
+cd cybersecurity
 ```
 
 ### 2. Create and activate virtual environment
