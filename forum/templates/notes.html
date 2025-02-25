@@ -13,7 +13,6 @@ It is now removed to better prevent any XSS attack.-->
 Write a message:
 
 <form action='addnote/' method="POST">
-    {% csrf_token %}
     <textarea name="content" rows="10"></textarea><br />
     <input type="submit" value="Send"/>
 </form>
