@@ -103,8 +103,6 @@ def notes(request):
 
 def addNote(request):
 
-    username = request.session["user"]
-
     note = request.POST.get("content")
 
     # Fixing XSS vulnerability. The <'s and >s are replaced by
@@ -113,6 +111,10 @@ def addNote(request):
     # HTML code is not rendered when notes.html is rendered to the user.
     note = note.replace("<", "&lt;").replace(">", "&gt;")
 
+    # Check the username by using session:
+    username = request.session["user"]
+
+    # The messages are no longer anonymous: username is required when saving messages to the database
     Notes.objects.create(username=username, note=note)
 
     return redirect("/notes")
