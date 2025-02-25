@@ -6,12 +6,13 @@ from django.contrib.auth.decorators import login_required
 
 
 def homePageView(request):
+    # The session of the current user is deleted
+    # to fix Broken Access Control:
     try:
         del request.session["user"]
     except KeyError:
         return render(request, 'index.html')
     return render(request, 'index.html')
-    
 
 def signUpView(request):
     return render(request, 'signup.html')
