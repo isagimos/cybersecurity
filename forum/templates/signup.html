@@ -2,6 +2,7 @@
 <hr>
 
 <form action='adduser/' method="POST">
+    <!--csrf token is added to prevent cross-site request forgery-->
     {% csrf_token %}
     Username:
     <input type="text" name="username"/><br/>
@@ -13,10 +14,3 @@
 </form>
 
 {{ message }}
-
-
-
-
-
-
-<!--Tee csrf_exemptillä tietoturva-aukko-->
