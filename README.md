@@ -1,3 +1,8 @@
+For testing purposes you can use:
+
+Username: masa
+Password: moikkavaan
+
 ### 1. Clone the repository
 
 
