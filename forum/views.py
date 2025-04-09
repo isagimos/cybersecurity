@@ -42,9 +42,9 @@ def addUser(request):
 #           return redirect("/signup")
 
         # Hash password before adding it to database:
-        hashed_password = make_password(password)
+#       password = make_password(password)
 
-        User.objects.create(username=username, password=hashed_password)
+        User.objects.create(username=username, password=password)
         return redirect("/")
     
 
