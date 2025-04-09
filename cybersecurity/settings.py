@@ -44,6 +44,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    # FLAW 6: Cross-site Request Forgery (CSRF).
     # Without 'django.middleware.csrf.CsrfViewMiddleware' it is not possible to use {% csrf_token %} template tag to prevent CSRF:
 #   'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
