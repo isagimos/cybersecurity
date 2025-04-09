@@ -12,12 +12,14 @@ def homePageView(request):
 #   if check(request) == False:
 #       return redirect("login/access_denied/")
 
-        # The session of the current user is deleted
-        # to fix Broken Access Control:
-    try:
-        del request.session["user"]
-    except KeyError:
-        return render(request, 'index.html')
+    # The session of the current user is deleted
+    # to fix Broken Access Control:
+#   try:
+#       del request.session["user"]
+#   except KeyError:
+#       return render(request, 'index.html')
+    
+    return render(request, 'index.html')
 
 def signUpView(request):
     return render(request, 'signup.html')
