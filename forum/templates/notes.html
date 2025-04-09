@@ -3,8 +3,8 @@ Messages:
 <p>{% for note in notes %}
 
 
-<!--There used to be safe filter after note.note.
-It is now removed to better prevent any XSS attack.-->
+<!--Everything is rendered as such because of the safe filter after note.note.
+    This allows for an XSS attack. -->
 <li>{{ note.username }}: "{{note.note | safe}}"
 </li>
 
