@@ -112,8 +112,8 @@ def addNote(request):
     # HTML code is not rendered when notes.html is rendered to the user.
 #   note = note.replace("<", "&lt;").replace(">", "&gt;")
 
-    # Check the username by using session:
-    username = request.session["user"]
+    # Without checking the username the application is vulnerable to attacks:
+#   username = request.session["user"]
 
     # The messages are no longer anonymous: username is required when saving messages to the database
     Notes.objects.create(username=username, note=note)
