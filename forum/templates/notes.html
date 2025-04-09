@@ -5,7 +5,7 @@ Messages:
 
 <!--There used to be safe filter after note.note.
 It is now removed to better prevent any XSS attack.-->
-<li>{{ note.username }}: "{{note.note}}"
+<li>{{ note.username }}: "{{note.note | safe}}"
 </li>
 
 {% endfor %}</p>
