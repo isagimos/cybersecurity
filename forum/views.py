@@ -115,7 +115,9 @@ def addNote(request):
     # Without checking the username the application is vulnerable to attacks:
 #   username = request.session["user"]
 
-    # The messages are no longer anonymous: username is required when saving messages to the database
+#   Notes.objects.create(username=username, note=note)
+    # The previous row would make sure that username is required when saving messages to the database.
+    # Without this requirement the application is more vulnerable to CSRF attack:
     Notes.objects.create(note=note)
 
     return redirect("/notes")
