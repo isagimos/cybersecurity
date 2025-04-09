@@ -8,12 +8,15 @@ import time
 
 def homePageView(request):
 
-    # Check if access is denied:
+    # FLAW 4: Security Logging and Monitoring Failure.
+    # There is no checking if the access is denied or not:
+    
 #   if check(request) == False:
 #       return redirect("login/access_denied/")
 
-    # The session of the current user is deleted
-    # to fix Broken Access Control:
+    # FLAW 3: Broken Access Control.
+    # The session of the current user should be deleted upon logout:
+    
 #   try:
 #       del request.session["user"]
 #   except KeyError:
@@ -38,11 +41,15 @@ def addUser(request):
         test_username = User.objects.get(username=username)
     except:
 
-        # Make sure the password is at least 8 characters:
+        # FLAW 1: Insecure Design.
+        # Without the following code the length of the password is not checked:
+        
 #       if len(password) <= 8:
 #           return redirect("/signup")
-
-        # Hash password before adding it to database:
+        
+        # FLAW 2: Cryptographic Failures.
+        # Without the following code the password is not hashed before adding it to database:
+        
 #       password = make_password(password)
 
         User.objects.create(username=username, password=password)
@@ -54,7 +61,9 @@ def addUser(request):
 
 def login(request):
     
-    # Check if access is denied:
+    # FLAW 4: Security Logging and Monitoring Failure.
+    # There is no checking if the access is denied or not:
+    
 #   if check(request) == False:
 #       return redirect("login/access_denied/")
         
@@ -73,10 +82,12 @@ def login(request):
             return render(request, "home.html")
     except:
         pass
-        
-    # Add request.session["tries"] to monitor login attempts.
+
+    # FLAW 4: Security Logging and Monitoring Failures.
+    # request.session["tries"] should be monitoring login attempts.
     # If somebody gives an incorrect password more than 3 times
-    # the user is redirected to "access_denied/".
+    # the user is redirected to "access_denied/":
+    
 #   try:
 #       request.session["tries"] += 1
 #   except:
@@ -106,10 +117,12 @@ def addNote(request):
 
     note = request.POST.get("content")
 
-    # Fixing XSS vulnerability. The <'s and >s are replaced by
+    # FLAW 5: Injection and Cross-Site Scripting.
+    # XSS vulnerability. Without the following, the <'s and >'s are not replaced by
     # HTML character entities &lt; and &gt; (less than and greater than)
-    # before the message is saved to the database. This ensures that possible
-    # HTML code is not rendered when notes.html is rendered to the user.
+    # before the message is saved to the database. Because of this, a possible
+    # HTML code is rendered when notes.html is rendered to the user:
+    
 #   note = note.replace("<", "&lt;").replace(">", "&gt;")
 
     # Without checking the username the application is vulnerable to attacks:
