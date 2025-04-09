@@ -2,9 +2,9 @@ Messages:
 
 <p>{% for note in notes %}
 
-
+<!-- FLAW 5: Injection and Cross-Site Scripting. -->
 <!--Everything is rendered as such because of the safe filter after note.note.
-    This allows for an XSS attack. -->
+    This allows for an XSS attack: -->
 <li>{{ note.username }}: "{{note.note | safe}}"
 </li>
 
