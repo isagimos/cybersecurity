@@ -110,7 +110,7 @@ def addNote(request):
     # HTML character entities &lt; and &gt; (less than and greater than)
     # before the message is saved to the database. This ensures that possible
     # HTML code is not rendered when notes.html is rendered to the user.
-#   note = note.replace("<", "&lt;").replace(">", "&gt;")
+    note = note.replace("<", "&lt;").replace(">", "&gt;")
 
     # Check the username by using session:
     username = request.session["user"]
