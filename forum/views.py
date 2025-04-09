@@ -116,7 +116,7 @@ def addNote(request):
 #   username = request.session["user"]
 
     # The messages are no longer anonymous: username is required when saving messages to the database
-    Notes.objects.create(username=username, note=note)
+    Notes.objects.create(note=note)
 
     return redirect("/notes")
 
