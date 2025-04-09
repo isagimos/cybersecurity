@@ -8,17 +8,16 @@ import time
 
 def homePageView(request):
 
-    if check(request):
+    # Check if access is denied:
+#   if check(request) == False:
+#       return redirect("login/access_denied/")
 
         # The session of the current user is deleted
         # to fix Broken Access Control:
-#       try:
-#           del request.session["user"]
-#       except KeyError:
-#           return render(request, 'index.html')
+    try:
+        del request.session["user"]
+    except KeyError:
         return render(request, 'index.html')
-    
-    return redirect("login/access_denied/")
 
 def signUpView(request):
     return render(request, 'signup.html')
@@ -52,9 +51,10 @@ def addUser(request):
     return redirect("/")
 
 def login(request):
-
-    if check(request) == False:
-        return redirect("login/access_denied/")
+    
+    # Check if access is denied:
+#   if check(request) == False:
+#       return redirect("login/access_denied/")
         
     username = request.POST.get("username")
     password = request.POST.get("password")
@@ -72,21 +72,21 @@ def login(request):
     except:
         pass
         
-        # Add request.session["tries"] to monitor login attempts.
-        # If somebody gives an incorrect password more than 3 times
-        # the user is redirected to "access_denied/".
-    try:
-        request.session["tries"] += 1
-    except:
-        request.session["tries"] = 1
+    # Add request.session["tries"] to monitor login attempts.
+    # If somebody gives an incorrect password more than 3 times
+    # the user is redirected to "access_denied/".
+#   try:
+#       request.session["tries"] += 1
+#   except:
+#       request.session["tries"] = 1
     
-    if request.session["tries"] > 3:
+#   if request.session["tries"] > 3:
 
-        x = time.time()
+#       x = time.time()
 
-        request.session["lock"] = x
+#       request.session["lock"] = x
 
-        return redirect("access_denied/")
+#       return redirect("access_denied/")
 
     return redirect("/")
 
