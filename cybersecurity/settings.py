@@ -44,8 +44,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # Add 'django.middleware.csrf.CsrfViewMiddleware' to use {% csrf_token %} template tag.
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # Without 'django.middleware.csrf.CsrfViewMiddleware' it is not possible to use {% csrf_token %} template tag to prevent CSRF:
+#   'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
