@@ -12,10 +12,10 @@ def homePageView(request):
 
         # The session of the current user is deleted
         # to fix Broken Access Control:
-        try:
-            del request.session["user"]
-        except KeyError:
-            return render(request, 'index.html')
+#       try:
+#           del request.session["user"]
+#       except KeyError:
+#           return render(request, 'index.html')
         return render(request, 'index.html')
     
     return redirect("login/access_denied/")
