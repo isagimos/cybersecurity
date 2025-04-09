@@ -124,13 +124,15 @@ def addNote(request):
     # HTML code is rendered when notes.html is rendered to the user:
     
 #   note = note.replace("<", "&lt;").replace(">", "&gt;")
-
+    
+    # FLAW 6: Cross-site Request Forgery (CSRF).
     # Without checking the username the application is vulnerable to attacks:
 #   username = request.session["user"]
-
+    
+    # FLAW 6: Cross-site Request Forgery (CSRF).
 #   Notes.objects.create(username=username, note=note)
     # The previous row would make sure that username is required when saving messages to the database.
-    # Without this requirement the application is more vulnerable to CSRF attack:
+    # Without this requirement the application is more vulnerable to CSRF attacks:
     Notes.objects.create(note=note)
 
     return redirect("/notes")
