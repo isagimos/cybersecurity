@@ -38,8 +38,8 @@ def addUser(request):
     except:
 
         # Make sure the password is at least 8 characters:
-        if len(password) <= 8:
-            return redirect("/signup")
+#       if len(password) <= 8:
+#           return redirect("/signup")
 
         # Hash password before adding it to database:
         hashed_password = make_password(password)
