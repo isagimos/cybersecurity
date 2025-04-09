@@ -75,18 +75,18 @@ def login(request):
         # Add request.session["tries"] to monitor login attempts.
         # If somebody gives an incorrect password more than 3 times
         # the user is redirected to "access_denied/".
-   try:
-       request.session["tries"] += 1
-   except:
-       request.session["tries"] = 1
+    try:
+        request.session["tries"] += 1
+    except:
+        request.session["tries"] = 1
     
-   if request.session["tries"] > 3:
+    if request.session["tries"] > 3:
 
-       x = time.time()
+        x = time.time()
 
-       request.session["lock"] = x
+        request.session["lock"] = x
 
-       return redirect("access_denied/")
+        return redirect("access_denied/")
 
     return redirect("/")
 
