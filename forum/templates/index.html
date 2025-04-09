@@ -4,6 +4,7 @@
 Log in:
 
 <form action='login/' method="POST">
+    <!-- FLAW 6: Cross-site Request Forgery (CSRF) -->
     <!-- cross-site request forgery is possible without csrf token: -->
     <!-- {% csrf_token %} -->
     Username:
