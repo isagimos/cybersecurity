@@ -53,43 +53,42 @@ def addUser(request):
 
 def login(request):
 
-    if check(request):
+    if check(request) == False:
+        return redirect("login/access_denied/")
+        
+    username = request.POST.get("username")
+    password = request.POST.get("password")
 
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+    try:
+        db_password = User.objects.filter(username=username).values()
 
-        try:
-            db_password = User.objects.filter(username=username).values()
+        db_password = db_password.all()[0]["password"]
 
-            db_password = db_password.all()[0]["password"]
+        if check_password(password, db_password):
 
-            if check_password(password, db_password):
+            request.session["user"] = f"{username}"
 
-                request.session["user"] = f"{username}"
-
-                return render(request, "home.html")
-        except:
-            pass
+            return render(request, "home.html")
+    except:
+        pass
         
         # Add request.session["tries"] to monitor login attempts.
         # If somebody gives an incorrect password more than 3 times
         # the user is redirected to "access_denied/".
-        try:
-            request.session["tries"] += 1
-        except:
-            request.session["tries"] = 1
-        
-        if request.session["tries"] > 3:
-
-            x = time.time()
-
-            request.session["lock"] = x
-
-            return redirect("access_denied/")
-
-        return redirect("/")
+   try:
+       request.session["tries"] += 1
+   except:
+       request.session["tries"] = 1
     
-    return redirect("login/access_denied/")
+   if request.session["tries"] > 3:
+
+       x = time.time()
+
+       request.session["lock"] = x
+
+       return redirect("access_denied/")
+
+    return redirect("/")
 
 def notes(request):
     username = request.session["user"]
